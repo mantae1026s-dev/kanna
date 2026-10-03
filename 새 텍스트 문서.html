@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanna</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffe6f0;
+            font-family: 'Comic Neue', sans-serif;
+            margin: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .overlay-body {
+            background-color: #fff7fa;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .overlay-title {
+            font-size: 24px;
+            color: #ff6f91;
+            margin-bottom: 16px;
+        }
+
+        .overlay-button {
+            background-color: #ffb3c1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .overlay-button:hover {
+            background-color: #ff8c9f;
+        }
+
+        .overlay-button:disabled {
+            cursor: wait;
+            opacity: 0.6;
+        }
+
+        .kanna {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            display: none;
+            /* Hidden until a button is clicked. */
+        }
+
+        .kanna iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Overlay de cookies kawaii -->
+    <div id="overlay" class="overlay">
+        <div class="overlay-body">
+            <p class="overlay-title">칸나?</p>
+            <button id="accept-button" class="overlay-button" disabled>🐉네</button>
+            <button id="decline-button" class="overlay-button" disabled>🐉아니오</button>
+        </div>
+    </div>
+
+<div id="kanna" class="kanna">
+    <div id="player"></div>
+</div>
+
+    <script>
+        const overlay = document.getElementById("overlay");
+        const kanna = document.getElementById("kanna");
+        const acceptButton = document.getElementById("accept-button");
+        const declineButton = document.getElementById("decline-button");
+        let player;
+
+        function startVideo() {
+            overlay.style.display = 'none';  // Oculta el overlay
+            kanna.style.display = 'block';   // Muestra el video
+            player.playVideo();
+        }
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: 'of5l0st1kA8',
+                playerVars: { playsinline: 1 },
+                events: {
+                    onReady: function () {
+                        acceptButton.disabled = false;
+                        declineButton.disabled = false;
+                    }
+                }
+            });
+        }
+
+        acceptButton.addEventListener("click", startVideo);
+        declineButton.addEventListener("click", startVideo);
+
+        const youtubeApi = document.createElement('script');
+        youtubeApi.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(youtubeApi);
+    </script>
+
+</body>
+
+</html>
